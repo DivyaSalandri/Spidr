@@ -281,7 +281,7 @@ function App() {
 const maskSpidrPin = (pin: string) => {
   const digitsOnly = pin.replace(/\D/g, "");
   const visible = digitsOnly.slice(-4);
-  const masked = "*".repeat(digitsOnly.length - 4) + visible;
+  const masked = "#".repeat(digitsOnly.length - 4) + visible;
   const parts = masked.match(/.{1,4}/g);
   return parts ? parts.join("-") : masked;
 };

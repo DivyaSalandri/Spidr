@@ -51,13 +51,16 @@ function App() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    console.log("Submitted form data:", form);
+
     const hashedPin = await hashString(form.spidrPin.replace(/-/g, ""));
     console.log("Hashed PIN:", hashedPin);
     // Use hashedPin for backend or whatever you want instead of raw PIN
 
     setSubmitted(true);
   };
-
+  
+  
   return (
     <div
       style={{
@@ -267,13 +270,21 @@ function App() {
               <strong>Cost Guess:</strong> ${form.costGuess}
             </li>
             <li>
-              <strong>Spidr PIN:</strong> {form.spidrPin}
-            </li>
+              <strong>Spidr PIN:</strong> {maskSpidrPin(form.spidrPin)}
+              </li>
           </ul>
         </div>
       )}
     </div>
   );
 }
+const maskSpidrPin = (pin: string) => {
+  const digitsOnly = pin.replace(/\D/g, "");
+  const visible = digitsOnly.slice(-4);
+  const masked = "*".repeat(digitsOnly.length - 4) + visible;
+  const parts = masked.match(/.{1,4}/g);
+  return parts ? parts.join("-") : masked;
+};
+
 
 export default App;
